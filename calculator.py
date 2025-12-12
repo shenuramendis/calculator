@@ -1,19 +1,41 @@
-import math, numpy
+import math
+import numpy
 
-operator_choice = [['+','-'],['*','/']]
+
+operator_precedence = [['+','-'],['*','/']]
 number_choice = ['0','1','2','3','4','5','6','7','8','9']
 
-def precedence(new_op, old_op): #returns if new operator has a lower precedence than old operator
-    out = False
-    for item in operator_choice:
-        if new_op in item:
-            new_precedence = operator_choice.index(item)
-        if old_op in item:
-            old_precedence = operator_choice.index(item)
+def add(a, b):
+    return a+b
 
+def subtract(a,b):
+    return a-b
+
+def multiply(a,b):
+    return a*b
+
+def divide(a,b):
+    return a/b
+
+operator_choice = [['+', add],['-',subtract],['*', multiply],['/',divide]]
+
+def result(a,b,operation):
+    if operation in [op[0] for op in operator_choice]:
+        return operator_choice[([op[0] for op in operator_choice].index(operation))][1](a,b)
+
+
+def precedence(op):
+    out = None
+    for item in operator_precedence:
+        if op in item:
+            out = operator_precedence.index(op)
+
+def precedence_check(new_op, old_op): #returns if new operator has a lower precedence than old operator
+    out = False
+    new_precedence = precedence(new_op)
+    old_precedence = precedence(old_op)
     if new_precedence < old_precedence:
         out = True
-    
     return out
 
 def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
@@ -39,6 +61,19 @@ def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
             out.append(operators.pop())
     while len(operators) > 0:
         out.append(operators.pop())
+
+    return out
+
+def calculate(stack):
+    out = 0
+    buffer_stack = []
+    for item in stack:
+        if item in operator_choice:
+            buffer_stack.append(result(stack.pop(-2),stack.pop(), item))
+        else:
+            buffer_stack.append()
+
+    return out
 
 def main():
     expression = str(input("Enter expression: ")).replace(" ","").split("")
