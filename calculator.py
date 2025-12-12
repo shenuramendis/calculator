@@ -1,8 +1,6 @@
 import math
 import numpy
 
-
-operator_precedence = [['+','-'],['*','/']]
 number_choice = ['0','1','2','3','4','5','6','7','8','9']
 
 def add(a, b):
@@ -17,7 +15,7 @@ def multiply(a,b):
 def divide(a,b):
     return a/b
 
-operator_choice = [['+', add],['-',subtract],['*', multiply],['/',divide]]
+operator_choice = [['+', add, 0],['-',subtract, 0],['*', multiply, 1],['/',divide, 1]]
 
 def result(a,b,operation):
     if operation in [op[0] for op in operator_choice]:
@@ -26,15 +24,16 @@ def result(a,b,operation):
 
 def precedence(op):
     out = None
-    for item in operator_precedence:
-        if op in item:
-            out = operator_precedence.index(op)
+    prec_list = [op[0] for op in operator_choice]
+    if op in prec_list:
+        out = operator_choice[prec_list.index(op)][2]
+    return out
 
 def precedence_check(new_op, old_op): #returns if new operator has a lower precedence than old operator
     out = False
     new_precedence = precedence(new_op)
     old_precedence = precedence(old_op)
-    if new_precedence < old_precedence:
+    if new_precedence <= old_precedence:
         out = True
     return out
 
@@ -46,11 +45,11 @@ def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
     buffer = ""
     for item in exp:
         if item in number_choice:
-            buffer.append(item)
-        elif item in operator_choice:
+            buffer += item
+        elif item in [op[0] for op in operator_choice]:
             out.append(buffer)
             buffer = ""
-            while (len(operators) > 0) and precedence(item, operators[-1]):
+            while (len(operators) > 0) and (precedence_check(item, operators[-1])):
                     out.append(operators.pop())
             operators.append(item)
         elif item == '(':
@@ -59,25 +58,28 @@ def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
             while operators[-1] != '(':
                 out.append(operators.pop())
             out.append(operators.pop())
+    out.append(buffer)
     while len(operators) > 0:
         out.append(operators.pop())
-
     return out
 
 def calculate(stack):
     out = 0
     buffer_stack = []
     for item in stack:
-        if item in operator_choice:
-            buffer_stack.append(result(stack.pop(-2),stack.pop(), item))
+        if item in [op[0] for op in operator_choice]:
+            b = float(buffer_stack.pop())
+            a = float(buffer_stack.pop())
+            out += result(a,b, item)
+            buffer_stack.append(str(out))
         else:
-            buffer_stack.append()
-
+            buffer_stack.append(item)
     return out
 
 def main():
-    expression = str(input("Enter expression: ")).replace(" ","").split("")
+    expression = list(str(input("Enter expression: ")).replace(" ",""))
     rpn_stack = infix(expression)
+    print("Result: " + str(calculate(rpn_stack)))
 
 if __name__ == "__main__":
     main()
