@@ -13,5 +13,8 @@ def multiply(a,b):
 def divide(a,b):
     return a/b
 
+def power(a,b):
+    return math.pow(a,b)
+
 if __name__ == "__main__":
     pass

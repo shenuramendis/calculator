@@ -1,5 +1,5 @@
 import operations as op
-import rpn as rpn
+import rpn_func as rpn
 
 def main():
     expression = list(str(input("Enter expression: ")).replace(" ",""))
