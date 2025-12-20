@@ -4,7 +4,7 @@ def result(a,b,operation):
     try:
         return smb.symbol[operation][0](a,b)
     except KeyError:
-        raise ValueError(f"Unknown operator: {op}")
+        raise ValueError(f"Unknown operator: {operation}")
 
 def precedence(op):
     try:
