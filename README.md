@@ -16,5 +16,3 @@ The program currently supports five operations, which can be found in [operation
 ## Running the program
 
 To run the program, download the [rpn_calc](rpn_calc/) folder, and run [calculator.py](rpn_calc/calculator.py) in the terminal.
-
-Add README
