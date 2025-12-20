@@ -6,7 +6,7 @@ The expression is converted using a shunting-yard algorithm and is then evaluate
 
 ## Operations
 
-The program currently supports five operations, which can be found in [operations.py](calculator/rpn_calc/operations.py)
+The program currently supports five operations, which can be found in [operations.py](rpn_calc/operations.py)
 1. Addition (+)
 2. Subtraction (-)
 3. Multiplication (*)
@@ -15,6 +15,6 @@ The program currently supports five operations, which can be found in [operation
 
 ## Running the program
 
-To run the program, download the [rpn_calc](calculator/rpn_calc/) folder, and run [calculator.py](calculator/rpn_calc/calculator.py) in the terminal.
+To run the program, download the [rpn_calc](rpn_calc/) folder, and run [calculator.py](rpn_calc/calculator.py) in the terminal.
 
 Add README
