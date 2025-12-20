@@ -1,22 +1,22 @@
-import math
-import numpy
+import operators as smb
 
 def result(a,b,operation):
-    if operation in operator_choice.keys():
-        return operator_choice[operation][0](a,b)
+    if operation in smb.symbol.keys():
+        return smb.symbol[operation][0](a,b)
 
 def precedence(op):
     out = None
-    if op in operator_choice.keys():
-        out = operator_choice[op][1]
+    if op in smb.symbol.keys():
+        out = smb.symbol[op][1]
+    
     return out
 
 def precedence_check(new_op, old_op): #returns if new operator has a lower precedence than old operator
     out = False
     new_precedence = precedence(new_op)
     old_precedence = precedence(old_op)
-    if new_precedence <= old_precedence:
-        out = True
+    if new_precedence < old_precedence:
+        out = True 
     return out
 
 def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
@@ -26,15 +26,14 @@ def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
     operators = [] # operator stack while reading
     buffer = ""
     for item in exp:
-        if item in number_choice:
+        if item in smb.number:
             buffer += item
-        elif item in operator_choice.keys():
+            print(buffer)
+        elif item in smb.symbol.keys():
             out.append(buffer)
             buffer = ""
-            print(operators)
-            print('x')
-            if len(operators) > 0:
-                while (len(operators) > 1) and (precedence_check(item, operators[-1])):
+            while (len(operators) > 0) and (operators[-1] != '('):
+                if precedence_check(item, operators[-1]):
                     out.append(operators.pop())
             operators.append(item)
         elif item == '(':
@@ -43,8 +42,6 @@ def infix(exp): # reads expression to rpn stack using a shutting-yard algorithm
             while operators[-1] != '(':
                 out.append(operators.pop(-1))
             operators.pop(-1)
-        print(out)
-        print('y')
     out.append(buffer)
     while len(operators) > 0:
         out.append(operators.pop())
@@ -54,7 +51,8 @@ def calculate(stack):
     out = 0
     buffer_stack = []
     for item in stack:
-        if item in operator_choice.keys():
+        if item in smb.symbol.keys():
+            buffer_stack.pop()
             b = float(buffer_stack.pop())
             a = float(buffer_stack.pop())
             buffer_stack.append(str(result(a,b,item)))
@@ -62,3 +60,6 @@ def calculate(stack):
             buffer_stack.append(item)
     out = buffer_stack[0]
     return out
+
+if __name__ == "__main__":
+    pass
