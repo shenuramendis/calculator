@@ -16,5 +16,8 @@ def divide(a,b):
 def power(a,b):
     return math.pow(a,b)
 
+def uminus(a, waste):
+    return a * -1.0
+
 if __name__ == "__main__":
     pass
