@@ -1,0 +1,6 @@
+# delete this line and add an expression line by line without an '='
+# spaces are ignored
+e.g. 
+1+1
+2 * sin(3)
+
