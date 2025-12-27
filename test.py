@@ -25,7 +25,7 @@ def run(program, expression):
         result = float(result.stdout.strip())
         return result
     except subprocess.CalledProcessError as errorCode:
-        print(f"Failed case: {expression}")
+        print(f"Error case: {expression}")
         #print(f"Error code: {errorCode.returncode}")
         #print(f"Error description: {errorCode.stderr}")
 
@@ -47,7 +47,10 @@ def main():
                     passes += 1
                 else:
                     fails += 1
+                    print(case[0])
+                    print(str(case[1]))
+                    print(str(progOut))
+                    print("----------------------------------------------------")
             result.write(f"Pass: {passes}\nFail: {fails}\n------------------------------\n")
-
 if __name__ == '__main__':
     main()

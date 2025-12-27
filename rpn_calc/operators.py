@@ -1,14 +1,38 @@
 import operations as op
+import math
 
 number = ['0','1','2','3','4','5','6','7','8','9','.']
 
-symbol = {'+': (op.add, 0, 'L', 2),
-          '-': (op.subtract, 0, 'L', 2),
-          '*' : (op.multiply, 1, 'L', 2),
-          '/':(op.divide, 1, 'L', 2),
-          'Uminus':(op.uminus, 2, 'R', 1),
-          '^':(op.power, 3, 'R', 2)
-        }
+constant = {
+            'e': math.e,
+            'π': math.pi,
+           }
+
+class sym_func:
+    
+    def __init__(self, function, arity, associativity='x', precedence='-1'):
+        self.function = function
+        self.precedence = precedence
+        self.associativity = associativity
+        self.arity = arity
+
+symbol = {
+          '+': sym_func(op.add, 2, 'L', 0),
+          '-': sym_func(op.subtract, 2, 'L', 0),
+          '*' : sym_func(op.multiply, 2, 'L', 1),
+          '/': sym_func(op.divide, 2, 'L', 1),
+          '~': sym_func(op.uminus, 1, 'R', 2),
+          '^': sym_func(op.power, 2, 'R', 3),
+          '!': sym_func(op.fact, 1, 'R', 4)
+         }
+
+function = {
+            'sin': sym_func(op.sine,1),
+            'cos': sym_func(op.cosine,1),
+            'tan': sym_func(op.tangent,1),
+           }
+
+
 
 if __name__ == "__main__":
     pass
